@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>That Works | Capture Every HVAC Lead Automatically</title>
+    <meta name="description" content="Stop losing HVAC jobs to missed calls. We help Ventura County HVAC companies turn missed calls into booked jobs automatically.">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- DESIGN TOKENS --- */
+        :root {
+            --primary: #1e3a8a; /* Deep HVAC Blue */
+            --primary-dark: #1e3a8a;
+            --accent: #f97316; /* Heat Orange */
+            --accent-hover: #ea580c;
+            --text-dark: #111827;
+            --text-light: #4b5563;
+            --bg-light: #f9fafb;
+            --white: #ffffff;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --max-width: 1200px;
+        }
+
+        /* --- RESET & BASE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            color: var(--text-dark); 
+            line-height: 1.6; 
+            overflow-x: hidden;
+            background-color: var(--white);
+        }
+
+        /* --- UTILITIES --- */
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 1.5rem; }
+        .section-padding { padding: 100px 0; }
+        .text-center { text-align: center; }
+        .btn {
+            display: inline-block;
+            padding: 18px 36px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            font-size: 1.1rem;
+            border: none;
+        }
+        .btn-primary { background: var(--accent); color: white; box-shadow: 0 4px 14px rgba(249, 115, 22, 0.3); }
+        .btn-primary:hover { transform: translateY(-3px); background: var(--accent-hover); box-shadow: 0 6px 20px rgba(249, 115, 22, 0.4); }
+        
+        .btn-nav { padding: 10px 20px; font-size: 0.9rem; }
+
+        h1, h2, h3 { line-height: 1.1; font-weight: 800; }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1.5rem; }
+        h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1.5rem; }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 800; font-size: 1.5rem; color: var(--primary); text-decoration: none; }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 120px;
+            background: radial-gradient(circle at top right, #f0f4ff, transparent);
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .hero-sub { font-size: 1.25rem; color: var(--text-light); margin-bottom: 2.5rem; max-width: 600px; }
+
+        /* Mockup Visual */
+        .mockup-container { position: relative; }
+        .iphone {
+            background: #111;
+            border-radius: 40px;
+            padding: 15px;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.2);
+            border: 4px solid #444;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+        .screen {
+            background: #f0f0f0;
+            border-radius: 25px;
+            overflow: hidden;
+            aspect-ratio: 9/19.5;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 20px 10px;
+        }
+        .msg {
+            background: white;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            animation: slideIn 0.5s ease forwards;
+            opacity: 0;
+        }
+        .msg-time { font-weight: bold; color: var(--primary); font-size: 0.7rem; display: block; margin-bottom: 4px; }
+        @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* --- PROBLEM SECTION --- */
+        .problem { background: #0f172a; color: white; }
+        .problem h2 { color: white; }
+        .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; margin-top: 40px; }
+        .problem-list { list-style: none; }
+        .problem-list li { 
+            margin-bottom: 20px; 
+            padding-left: 30px; 
+            position: relative; 
+            color: #cbd5e1;
+            font-size: 1.1rem;
+        }
+        .problem-list li::before { 
+            content: '✕'; 
+            position: absolute; 
+            left: 0; 
+            color: #ef4444; 
+            font-weight: bold; 
+        }
+
+        /* --- HOW IT WORKS --- */
+        .step-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 30px; 
+            margin-top: 60px; 
+        }
+        .step-card {
+            padding: 40px;
+            background: var(--bg-light);
+            border-radius: 16px;
+            transition: var(--transition);
+            border: 1px solid #edf2f7;
+        }
+        .step-card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        .step-num { 
+            font-size: 3rem; 
+            font-weight: 800; 
+            color: rgba(30, 58, 138, 0.1); 
+            margin-bottom: 10px; 
+            display: block;
+        }
+        .step-card h3 { margin-bottom: 15px; color: var(--primary); }
+
+        /* --- SOCIAL PROOF --- */
+        .social-proof { background: var(--primary); color: white; }
+        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 60px; }
+        .stat-card { text-align: center; padding: 30px; background: rgba(255,255,255,0.1); border-radius: 12px; }
+        .stat-card h3 { font-size: 1.5rem; margin-bottom: 0; }
+        .testimonial {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            color: var(--text-dark);
+            padding: 50px;
+            border-radius: 20px;
+            position: relative;
+        }
+        .testimonial i { font-style: italic; font-size: 1.2rem; display: block; margin-bottom: 20px; }
+
+        /* --- DIFFERENT SECTION --- */
+        .diff-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 40px; 
+            margin-top: 60px; 
+        }
+        .diff-item { display: flex; gap: 20px; align-items: flex-start; }
+        .diff-icon { 
+            background: #eff6ff; 
+            padding: 15px; 
+            border-radius: 12px; 
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* --- PRICING --- */
+        .pricing { background: var(--bg-light); }
+        .pricing-card {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            padding: 60px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1);
+            border: 2px solid var(--primary);
+            position: relative;
+        }
+        .price { font-size: 4rem; font-weight: 800; margin: 20px 0; }
+        .price span { font-size: 1.2rem; color: var(--text-light); }
+        .pricing-list { list-style: none; text-align: left; margin: 30px 0; }
+        .pricing-list li { margin-bottom: 12px; font-weight: 600; }
+        .guarantee { font-size: 0.9rem; color: var(--text-light); margin-top: 20px; }
+
+        /* --- FAQ --- */
+        .faq-container { max-width: 800px; margin: 60px auto 0; }
+        .faq-item { border-bottom: 1px solid #eee; }
+        .faq-question {
+            width: 100%;
+            padding: 25px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: none;
+            border: none;
+            text-align: left;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            color: var(--text-light);
+        }
+        .faq-item.active .faq-answer { max-height: 200px; padding-bottom: 25px; }
+        .faq-item.active .faq-toggle { transform: rotate(45deg); }
+        .faq-toggle { font-size: 1.5rem; transition: var(--transition); }
+
+        /* --- FINAL CTA --- */
+        .final-cta { padding: 120px 0; background: linear-gradient(to bottom, #fff, #f0f4ff); }
+
+        /* --- ANIMATIONS --- */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s all ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 992px) {
+            .hero-grid, .problem-grid, .diff-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-sub { margin: 0 auto 2.5rem; }
+            .stat-grid { grid-template-columns: 1fr; }
+            .problem-list li { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">That Works</a>
+                <a href="https://calendly.com/your-booking-link" class="btn btn-primary btn-nav">Book Free Demo</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="reveal active">
+                    <h1>Never Lose Another Emergency AC Call During Heat Season.</h1>
+                    <p class="hero-sub">We help Ventura County HVAC companies automatically turn missed calls into booked jobs and capture 5-star Google Reviews without lifting a finger.</p>
+                    <a href="https://calendly.com/your-booking-link" class="btn btn-primary">Book My Free Demo</a>
+                </div>
+                <div class="mockup-container reveal active" style="transition-delay: 0.2s;">
+                    <div class="iphone">
+                        <div class="screen">
+                            <div class="msg">
+                                <span class="msg-time">Missed Call • 2:47 PM</span>
+                                Call from (805) 555-0123
+                            </div>
+                            <div class="msg" style="margin-left: 20px; background: var(--primary); color: white; animation-delay: 1s;">
+                                <span class="msg-time" style="color: #60a5fa;">Auto-Reply • 2:47 PM</span>
+                                "Hello! I'm on a service call but saw your AC is out. I can be there by 5pm. What's your address?"
+                            </div>
+                            <div class="msg" style="animation-delay: 2s;">
+                                <span class="msg-time">Homeowner • 2:48 PM</span>
+                                "Life saver! 123 Main St, Camarillo. See you then!"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROBLEM SECTION -->
+    <section class="section-padding problem">
+        <div class="container">
+            <div class="problem-grid">
+                <div class="reveal">
+                    <h2>Ventura County is the Fastest-Warming County in America.</h2>
+                    <p style="font-size: 1.2rem; color: #94a3b8;">Your phone is ringing off the hook. You're up on a roof in 95-degree heat. By the time you climb down, they've already booked your competitor.</p>
+                </div>
+                <div class="reveal">
+                    <p style="font-weight: bold; margin-bottom: 20px;">Here's what's costing you $30k–$50k a year:</p>
+                    <ul class="problem-list">
+                        <li>60% of customers hang up if you don't answer</li>
+                        <li>Heat waves = call surges you can't physically answer</li>
+                        <li>Your website is a digital brochure, not a lead-catcher</li>
+                        <li>Happy customers forget to leave reviews, killing your rank</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section id="how-it-works" class="section-padding">
+        <div class="container text-center">
+            <h2 class="reveal">The 4-Step System That Captures Every Lead</h2>
+            <div class="step-grid">
+                <div class="step-card reveal">
+                    <span class="step-num">01</span>
+                    <h3>Your New Chatbot</h3>
+                    <p>We build a chatbot that texts you immediately. Speed to new lead = money.</p>
+                </div>
+                <div class="step-card reveal" style="transition-delay: 0.1s;">
+                    <span class="step-num">02</span>
+                    <h3>Missed Call Text-Back</h3>
+                    <p>If you miss a call, our system instantly texts them: "Sorry I missed you, how can I help?"</p>
+                </div>
+                <div class="step-card reveal" style="transition-delay: 0.2s;">
+                    <span class="step-num">03</span>
+                    <h3>5-Star Reputation</h3>
+                    <p>Automatically requests reviews. 5-stars go to Google; low stars go privately to you.</p>
+                </div>
+                <div class="step-card reveal" style="transition-delay: 0.3s;">
+                    <span class="step-num">04</span>
+                    <h3>Local SEO Focus</h3>
+                    <p>We ensure your business is actually found on Google when the heat hits.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF -->
+    <section class="section-padding social-proof">
+        <div class="container text-center">
+            <h2 class="reveal">Built by HVAC Pros, For HVAC Pros</h2>
+            <div class="stat-grid reveal">
+                <div class="stat-card">
+                    <h3>24/7</h3>
+                    <p>Lead Capture</p>
+                </div>
+                <div class="stat-card">
+                    <h3>20-30%</h3>
+                    <p>Revenue Increase</p>
+                </div>
+                <div class="stat-card">
+                    <h3>$3k-$5k</h3>
+                    <p>Per Job Saved</p>
+                </div>
+            </div>
+            
+            <div class="testimonial reveal">
+                <i>"Game-changer during the summer heat wave. I captured 15 jobs that would have gone to competitors just because I texted back instantly while on another roof."</i>
+                <strong>— Alex D., HVAC Services, Camarillo</strong>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHAT MAKES US DIFFERENT -->
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="text-center reveal">What Makes Us Different?</h2>
+            <div class="diff-grid reveal">
+                <div class="diff-item">
+                    <div class="diff-icon">✓</div>
+                    <div>
+                        <h3>Built for Ventura County Heat</h3>
+                        <p>We understand your market. 90°F+ days are increasing—this is survival.</p>
+                    </div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">✓</div>
+                    <div>
+                        <h3>No Long-Term Contracts</h3>
+                        <p>Month-to-month. Cancel anytime. We earn your business every month.</p>
+                    </div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">✓</div>
+                    <div>
+                        <h3>Set Up in 48 Hours</h3>
+                        <p>Fast deployment. You'll start capturing missed calls this week, not next quarter.</p>
+                    </div>
+                </div>
+                <div class="diff-item">
+                    <div class="diff-icon">✓</div>
+                    <div>
+                        <h3>We Handle Everything</h3>
+                        <p>No software to master. We set it up, you just book more jobs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing" class="section-padding pricing">
+        <div class="container text-center">
+            <h2 class="reveal">One Simple Price. Everything Included.</h2>
+            <div class="pricing-card reveal">
+                <h3>That Works - Complete System</h3>
+                <div class="price">$297<span>/mo</span></div>
+                <ul class="pricing-list">
+                    <li>✅ Missed Call Text-Back (unlimited)</li>
+                    <li>✅ Text-Enabled Website Chat Widget</li>
+                    <li>✅ 5-Star Google Review Automation</li>
+                    <li>✅ Real-Time Lead Dashboard</li>
+                    <li>✅ 48-Hour Setup</li>
+                    <li>✅ Cancel Anytime</li>
+                </ul>
+                <a href="https://calendly.com/your-booking-link" class="btn btn-primary" style="width: 100%;">Book My Free Demo</a>
+                <p class="guarantee">Not seeing results in 30 days? Get a full refund.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="text-center reveal">Questions HVAC Owners Actually Ask</h2>
+            <div class="faq-container reveal">
+                <div class="faq-item">
+                    <button class="faq-question">How fast will I see results? <span class="faq-toggle">+</span></button>
+                    <div class="faq-answer">
+                        <p>Most HVAC companies capture their first missed call within 24-48 hours of setup. During heat waves, you'll see the impact immediately.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Does this replace my receptionist? <span class="faq-toggle">+</span></button>
+                    <div class="faq-answer">
+                        <p>No. It works alongside your team. It catches calls when you're busy, after hours, or during surges when call volume spikes 300%.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">What if customers don't like automated texts? <span class="faq-toggle">+</span></button>
+                    <div class="faq-answer">
+                        <p>They LOVE it. When their AC is broken in 95-degree heat, they want immediate acknowledgment that help is coming.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Do I need to change my phone number? <span class="faq-toggle">+</span></button>
+                    <div class="faq-answer">
+                        <p>Nope. We work with your existing phone system. Zero disruption to your business.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="final-cta text-center">
+        <div class="container">
+            <h2 class="reveal">Stop Losing $50,000/Year to Missed Calls</h2>
+            <p class="hero-sub reveal" style="margin: 0 auto 2.5rem;">Book a 15-minute demo. See how Ventura County HVAC companies are capturing leads 24/7.</p>
+            <a href="https://calendly.com/your-booking-link" class="btn btn-primary reveal">Book My Free Demo Now</a>
+            <p style="margin-top: 20px; color: var(--text-light);" class="reveal">No pressure. No commitment. Just a clear explanation.</p>
+        </div>
+    </section>
+
+    <footer style="padding: 40px 0; border-top: 1px solid #eee; text-align: center; color: var(--text-light); font-size: 0.9rem;">
+        <div class="container">
+            <p>&copy; 2024 That Works Marketing. Ventura County, CA.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // FAQ Accordion Logic
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // Scroll Reveal Animation
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
